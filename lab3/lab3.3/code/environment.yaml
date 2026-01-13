@@ -1,0 +1,27 @@
+name: textlab
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy=1.26
+  - scipy=1.13
+  - pandas
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - jupyterlab
+  - gensim
+  - pytorch
+  - torchvision
+  - torchaudio
+  - transformers
+  - tqdm
+  - tensorboard
+  - ipywidgets
+  - pip
+  - pip:
+      - sentencepiece
+      - huggingface_hub[hf_xet]
+      - peft
+      - accelerate

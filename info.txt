@@ -1,0 +1,5 @@
+name = "Soohyun Kim"
+SID = "3039643726"
+email = "shana22@berkeley.edu"
+github_name = "ShanaKim"
+

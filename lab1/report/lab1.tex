@@ -1,0 +1,1501 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \makeatletter
+    \newsavebox\pandoc@box
+    \newcommand*\pandocbounded[1]{%
+      \sbox\pandoc@box{#1}%
+      % scaling factors for width and height
+      \Gscale@div\@tempa\textheight{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+      \Gscale@div\@tempb\linewidth{\wd\pandoc@box}%
+      % select the smaller of both
+      \ifdim\@tempb\p@<\@tempa\p@
+        \let\@tempa\@tempb
+      \fi
+      % scaling accordingly (\@tempa < 1)
+      \ifdim\@tempa\p@<\p@
+        \scalebox{\@tempa}{\usebox\pandoc@box}%
+      % scaling not needed, use as it is
+      \else
+        \usebox{\pandoc@box}%
+      \fi
+    }
+    \makeatother
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{lab1}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    
+
+    \subsection{1 Introduction}\label{introduction}
+
+Traumatic Brain Injury (TBI) is a critical public health concern,
+particularly in pediatric populations, where timely and accurate
+diagnosis is essential to prevent severe health consequences. The PECARN
+(Pediatric Emergency Care Applied Research Network) study aimed to
+develop a clinical decision rule that could identify children at very
+low risk of clinically important TBI (ciTBI), thus reducing unnecessary
+CT scans and minimizing radiation exposure. Understanding the data
+collected in this study is crucial for assessing the validity of the
+clinical prediction rule and determining areas for improvement.
+
+In this report, we conduct an exploratory data analysis (EDA) of the TBI
+Public Use Dataset (PUD) to investigate data quality, patterns, and
+relationships among variables. This process involves assessing missing
+data, identifying inconsistencies, and determining appropriate data
+cleaning techniques. Given the high stakes of TBI diagnosis, our
+analysis will also examine how different patient-level factors influence
+the likelihood of ciTBI and whether they align with the prediction model
+developed in the PECARN study.
+
+    \subsection{2 Data}\label{data}
+
+This study utilizes the PECARN TBI Public Use Dataset (PUD) to explore
+the effectiveness of clinical prediction rules for identifying
+clinically important traumatic brain injuries (ciTBI) in children. The
+dataset contains patient-level features collected from multiple
+pediatric emergency departments across North America, focusing on
+children under 18 years of age who presented with minor head trauma. The
+primary goal of analyzing this dataset is to assess data quality,
+identify key patterns, and evaluate the potential for improving clinical
+decision-making. The dataset provides rich information on patient
+demographics, clinical symptoms, injury mechanisms, and outcomes,
+including whether a child developed ciTBI and required further
+intervention. There are a total of 43399 observations(patients) with 125
+columns.
+
+    \subsubsection{2.1 Data Collection}\label{data-collection}
+
+The data were collected as part of a prospective observational cohort
+study conducted across 25 PECARN emergency departments. The study
+enrolled children who presented to the emergency department within 24
+hours of experiencing blunt head trauma. Patient history and clinical
+symptoms were recorded by trained site investigators and emergency
+department physicians using a standardized data form before knowing
+imaging results. The dataset includes Glasgow Coma Scale (GCS) scores,
+indicators of altered mental status, loss of consciousness, vomiting,
+and other clinical signs that help determine the severity of head
+trauma. Imaging data (CT scans) were obtained at the discretion of the
+emergency department physician rather than being required for every
+patient, meaning that not all cases have CT scan results.
+
+    \subsubsection{2.2 Data Cleaning}\label{data-cleaning}
+
+To prepare the dataset for analyzing factors influencing clinically
+important traumatic brain injury (ciTBI), we first removed columns
+deemed irrelevant to our predictive goal. This included patient
+identifiers (e.g., `PatNum'), physician-related information, and
+redundant or overly specific variables. Additionally, detailed physical
+exam findings and CT scan ordering reasons were excluded, as our focus
+is solely on whether a CT scan was performed and the presence of ciTBI.
+Columns with excessive missing values (over 35\%), such as `Dizzy' and
+`Ethnicity', were also removed, as their limited data would not provide
+meaningful insights.
+
+Next, we addressed missing data based on three cases. First, rows with
+missing values for ciTBI, our primary outcome, were dropped to ensure
+the integrity of our analysis. For columns with less than 1\% missing
+data, missing values were replaced with the mode to maintain
+consistency. Variables with 2\% to 5\% missingness were handled on a
+case-by-case basis, using appropriate imputations. Specific features
+such as LocSeparate (indicating loss of consciousness) were filled with
+a designated unknown category (92), while LocLen (duration of loss of
+consciousness) was imputed using the mode based on whether LocSeparate
+was 1 or 2. Similarly, for headache-related features (HA\_verb, HAStart,
+HASeverity), missing values were either replaced with 92(inapplicable)
+or filled using the mode within their respective categories. This
+ensured that valuable information was not lost while maintaining the
+interpretability of patient symptoms.
+
+For symptom-related columns such as vomiting (Vomit), hematoma (Hema),
+seizures (Seiz), and neurological deficits (NeuroD), missing values were
+also handled using mode imputation, following the same structured
+approach as the headache and loss of consciousness variables.
+Additionally, to simplify the Glasgow Coma Scale (GCS) features, we
+retained only GCSTotal, as it had no missing values, and removed
+individual GCS components (GCS Motor, GCS Verbal, GCS Eye). Finally,
+categorical variables were recoded for interpretability, such as
+replacing unclear responses (2) with ``not applicable'' (92) and
+simplifying injury severity into binary classifications (e.g.,
+`High\_impact\_InjSev' categorized as 0 for mild, 1 for moderate/high).
+These cleaning steps ensured the dataset was structured, complete, and
+ready for meaningful exploratory analysis and predictive modeling.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{sys}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{os}
+\PY{n}{sys}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{path}\PY{o}{.}\PY{n}{abspath}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{clean}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{clean\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{pandas}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{pd}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{plt}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{numpy}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{np}
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{n}{df\PYZus{}raw} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{../data/TBI PUD 10\PYZhy{}08\PYZhy{}2013.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{missing\PYZus{}values} \PY{o}{=} \PY{n}{df\PYZus{}raw}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df\PYZus{}raw}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+\PY{n}{missing\PYZus{}values} \PY{o}{=} \PY{n}{missing\PYZus{}values}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{30}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{missing\PYZus{}values}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Columns}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage of Missing Values (}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Top 30 Columns with Most Missing Values in df\PYZus{}raw}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{right}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab1_files/lab1_6_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df} \PY{o}{=} \PY{n}{clean\PYZus{}data}\PY{p}{(}\PY{n}{df\PYZus{}raw}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Cleaned df shape is: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+No NaN values for all columns.
+Cleaned df shape is:  (43379, 55)
+    \end{Verbatim}
+
+    I have used the cleaned the data using the clean\_data function in the
+clean.py file, and as we can see, there are no NA values in the cleaned
+dataframe, and the number of columns has decreased from 125 to 55,
+keeping only the essential columns that are relevant to our project.
+
+    \subsubsection{2.3 Data Exploration}\label{data-exploration}
+
+First, we examine the distribution of the final outcome column, which
+indicates whether a patient was diagnosed with clinically important
+traumatic brain injury (ciTBI). This step helps us understand the
+overall proportion of children with ciTBI in the dataset.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}frame}\PY{p}{(}\PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{n}{Percentage}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+             Count  Percentage
+PosIntFinal
+0.0          42616   98.241084
+1.0            763    1.758916
+\end{Verbatim}
+\end{tcolorbox}
+        
+    From the frequency chart above, we observe that less than 2\% of the
+children were diagnosed with ciTBI, highlighting a significant class
+imbalance in the data. Given this, our next step is to analyze the
+proportion of children who underwent CT scans and compare it with the
+actual ciTBI diagnoses. Specifically, we aim to determine how many
+children received a potentially unnecessary CT scan, as they ultimately
+did not have ciTBI. This analysis is crucial for evaluating the
+efficiency of clinical decision rules in reducing unnecessary radiation
+exposure while ensuring accurate diagnoses.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{ct\PYZus{}citbi\PYZus{}counts} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTDone}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{unstack}\PY{p}{(}\PY{p}{)}
+\PY{n}{ct\PYZus{}citbi\PYZus{}counts}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{stacked}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{colormap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CT Scans vs Clinically\PYZhy{}Important TBI}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CT Done (0 = No, 1 = Yes)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Number of Patients}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ciTBI (0 = No, 1 = Yes)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{ct\PYZus{}citbi\PYZus{}counts} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTDone}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{unstack}\PY{p}{(}\PY{p}{)}
+\PY{n}{ct\PYZus{}citbi\PYZus{}percentage} \PY{o}{=} \PY{n}{ct\PYZus{}citbi\PYZus{}counts}\PY{o}{.}\PY{n}{div}\PY{p}{(}\PY{n}{ct\PYZus{}citbi\PYZus{}counts}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+
+\PY{n}{ct\PYZus{}citbi\PYZus{}percentage}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{stacked}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{colormap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage of CT Scans Among ciTBI and Non\PYZhy{}ciTBI Patients}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ciTBI (0 = No, 1 = Yes)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage of Patients (}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CT Done (0 = No, 1 = Yes)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab1_files/lab1_12_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    On the left chart we can see that most children did not receive a CT
+scan (left bar, ``0'' in CTDone). Among those who did receive a CT scan
+(right bar, ``1'' in CTDone), only a small fraction were diagnosed with
+clinically-important TBI (ciTBI). This suggests that many children
+underwent CT scans despite not having ciTBI, raising potential concerns
+about unnecessary radiation exposure. In the right chart, among children
+who did not have ciTBI (0 in PosIntFinal), a significant proportion
+still received CT scans (red section), meaning many CT scans were
+performed on children without severe injury. Among children who did have
+ciTBI (1 in PosIntFinal), nearly all of them received a CT scan,
+indicating high sensitivity in using CT scans for those who truly needed
+it. Additionally, the small blue section in the ciTBI group (1 in
+PosIntFinal) represents children who had ciTBI but did not receive a CT
+scan, suggesting a missed diagnosis risk. These findings suggest a need
+for improved decision rules to minimize unnecessary CT scans while
+ensuring that high-risk patients are properly diagnosed.
+
+    \subsection{3 Findings}\label{findings}
+
+    \subsubsection{3.1 First Finding: Distribution of ciTBI Children Across
+Categories}\label{first-finding-distribution-of-citbi-children-across-categories}
+
+To better understand the distribution of clinically important traumatic
+brain injury (ciTBI) cases across different categorical variables, we
+filtered the dataset to include only children diagnosed with ciTBI. We
+then calculated the percentage distribution for key variables, allowing
+us to assess which factors are most strongly associated with ciTBI. At
+this stage, we focus on high-level categories such as Altered Mental
+Status (AMS), Scalp Hematoma (Hema), Basilar Skull Fracture (SFxBas),
+Neurological Deficits (NeuroD), and Other Significant Injury (OSI) while
+excluding overly specific features.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}citbi} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}
+
+\PY{n}{selected\PYZus{}columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amnesia\PYZus{}verb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOCSeparate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seiz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ActNorm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HA\PYZus{}verb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Vomit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FontBulg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxBas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Clav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{n}{stacked\PYZus{}data} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{selected\PYZus{}columns}\PY{p}{:}
+    \PY{n}{stacked\PYZus{}data}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{=} \PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{ascending}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}
+
+\PY{n}{category\PYZus{}labels} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Yes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+m+mi}{91}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Pre\PYZhy{}verbal}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+m+mi}{92}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Not Applicable}\PY{l+s+s2}{\PYZdq{}}
+\PY{p}{\PYZcb{}}
+
+\PY{n}{stacked\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{stacked\PYZus{}data}\PY{p}{)}\PY{o}{.}\PY{n}{fillna}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{stacked\PYZus{}df} \PY{o}{=} \PY{n}{stacked\PYZus{}df}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{index}\PY{o}{=}\PY{n}{category\PYZus{}labels}\PY{p}{)}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{stacked\PYZus{}df}\PY{o}{.}\PY{n}{T}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{kind}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bar}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{stacked}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax}\PY{p}{,} \PY{n}{colormap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coolwarm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stacked Bar Chart of Selected Variables(ciTBI children only)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{14}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Variables}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Categories}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{bbox\PYZus{}to\PYZus{}anchor}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{1.05}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab1_files/lab1_16_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The distribution analysis of children with clinically important
+traumatic brain injury (ciTBI) reveals several key insights. Certain
+features, including High-Impact Injuries, Loss of Consciousness (LOC),
+Altered Mental Status (AMS), Scalp Hematoma (Hema), Clavicle Injury
+(Clav), and Other Significant Injury (OSI), show a high proportion of
+``Yes'' responses, suggesting they are strong predictors of ciTBI.
+Conversely, Acting Normally (ActNorm) has a high proportion of ``No''
+responses, indicating that a large share of ciTBI cases involve abnormal
+behavior at the time of evaluation. In contrast, Seizures (Seiz) and
+Anterior Fontanelle Bulging (FontBulg) exhibit very low associations
+with ciTBI, suggesting they may not serve as reliable standalone
+predictors. Some variables, such as Amnesia, Headache, Vomiting, Basilar
+Skull Fracture (SFxBas), and Neurological Deficit (NeuroD), display a
+mixed distribution of responses, indicating a more context-dependent
+relationship with ciTBI. Notably, the PECARN study identified AMS, LOC,
+Mechanism of Injury, Acting Normally, and Scalp Hematoma as critical
+predictors, aligning well with our findings. However, Headache,
+Vomiting, and Basilar Skull Fracture, which were considered significant
+in the study, exhibit a more ambiguous distribution in our dataset. This
+suggests that further statistical testing, such as logistic regression
+or chi-square tests, may be necessary to determine their predictive
+significance.
+
+    \subsubsection{3.2 Second Finding: Comparison of ciTBI and Non-ciTBI
+Cases Across
+Categories}\label{second-finding-comparison-of-citbi-and-non-citbi-cases-across-categories}
+
+The bar chart below compares the percentage of ``Yes'' responses for
+selected variables between children with and without clinically
+important traumatic brain injury. The selected features include strong
+and mixed indicators from Finding 1, such as High-Impact Injuries, Loss
+of Consciousness (LOC), Altered Mental Status (AMS), Scalp Hematoma
+(Hema), Clavicle Injury (Clav), Other Significant Injury (OSI), Amnesia,
+Acting Normal, Headache (HA), Vomiting (Vomit), Basilar Skull Fracture
+(SFxBas), and Neurological Deficit (NeuroD). We exclude Seizures (Seiz)
+and Anterior Fontanelle Bulging (FontBulg) due to their weak association
+with ciTBI. Additionally, we introduce Headache Severity (HASeverity) to
+validate the findings from the PECARN prediction rule in the original
+study. A feature is considered a strong predictor if its ``Yes''
+percentage is significantly higher in ciTBI cases compared to non-ciTBI
+cases. Conversely, if the ``Yes'' percentages are similar in both
+groups, the feature is likely less useful for prediction.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df\PYZus{}nocitbi} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{]}
+
+\PY{n}{selected\PYZus{}columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Amnesia\PYZus{}verb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOCSeparate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ActNorm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HA\PYZus{}verb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HASeverity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+                    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Vomit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxBas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Clav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Compute percentage of \PYZdq{}Yes\PYZdq{} values for ciTBI and non\PYZhy{}ciTBI groups}
+\PY{n}{yes\PYZus{}percent\PYZus{}citbi} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{col}\PY{p}{:} \PY{p}{(}\PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{selected\PYZus{}columns}\PY{p}{\PYZcb{}}
+\PY{n}{yes\PYZus{}percent\PYZus{}nocitbi} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{col}\PY{p}{:} \PY{p}{(}\PY{n}{df\PYZus{}nocitbi}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{selected\PYZus{}columns}\PY{p}{\PYZcb{}}
+
+\PY{n}{labels} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}citbi}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{values\PYZus{}citbi} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}citbi}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{values\PYZus{}nocitbi} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}nocitbi}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{labels}\PY{p}{)}\PY{p}{)}
+\PY{n}{width} \PY{o}{=} \PY{l+m+mf}{0.35}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{bars1} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{width}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{values\PYZus{}nocitbi}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No ciTBI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{bars2} \PY{o}{=} \PY{n}{ax}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x} \PY{o}{+} \PY{n}{width}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{values\PYZus{}citbi}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ciTBI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Variables}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Percentage of Yes Responses}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Comparison of Yes Responses Between ciTBI and Non\PYZhy{}ciTBI Groups}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab1_files/lab1_19_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Building on Finding 1, the chart clearly shows that for almost all
+variables, the percentage of ``Yes'' responses is higher in ciTBI cases
+than in non-ciTBI cases. Notably, the largest differences between ciTBI
+and non-ciTBI groups occur in the following variables:Loss of
+Consciousness (LOC), Acting Normal (ActNorm) (where over 80\% of ciTBI
+cases responded ``No''), Altered Mental Status (AMS), Basilar Skull
+Fracture (SFxBas), Palpable Skull Fracture (SFxPalp), Neurological
+Deficits (NeuroD). Most of these variables, except for NeuroD, were
+identified in the PECARN prediction rule as key indicators for ciTBI,
+reinforcing the consistency between the dataset and the findings in the
+paper.
+
+Interestingly, while NeuroD and OSI also exhibit a high percentage
+difference between ciTBI and non-ciTBI cases, they were not included in
+the PECARN prediction rule. However, this does not contradict the study.
+The prediction rule was designed as a concise screening tool, meaning
+that while NeuroD and OSI may still be associated with ciTBI, they might
+not have been as impactful as other variables in reducing unnecessary CT
+scans.
+
+Finally, HA\_verb (self-reported headache) stands out as an exception,
+with a lower ``Yes'' percentage in ciTBI cases compared to non-ciTBI
+cases. This suggests that headache alone may not be a strong predictor
+of ciTBI. Overall, the bar chart aligns well with the PECARN study's key
+findings, demonstrating that variables like AMS, LOC, Mechanism of
+Injury, Acting Normal, and Scalp Hematoma remain strong indicators of
+ciTBI. However, additional exploratory analysis is needed to fully
+understand the role of variables like NeuroD and OSI, which show notable
+differences but were not included in the final prediction model.
+
+    \subsubsection{3.3 Third Finding: Distribution of Age by Gender (All
+Children vs.~ciTBI
+Cases)}\label{third-finding-distribution-of-age-by-gender-all-children-vs.-citbi-cases}
+
+Understanding the distribution of age by gender is crucial in assessing
+which age groups are most likely to be tested for TBI and which are at
+higher risk of clinically important traumatic brain injury (ciTBI). By
+comparing the full dataset (left histogram) with the subset of children
+diagnosed with ciTBI (right histogram), we can identify potential
+age-related patterns and gender differences in TBI risk.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{colors} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lightblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lightcoral}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}
+\PY{n}{labels} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Male}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Female}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{9}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{bins} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{gender}\PY{p}{,} \PY{n}{color} \PY{o+ow}{in} \PY{n}{colors}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{n}{gender}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{bins}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.4}\PY{p}{,} 
+                 \PY{n}{label}\PY{o}{=}\PY{n}{labels}\PY{p}{[}\PY{n}{gender}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Age in Years}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{bins}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of Age by Gender}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{bins\PYZus{}citbi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{gender}\PY{p}{,} \PY{n}{color} \PY{o+ow}{in} \PY{n}{colors}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{n}{gender}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{bins\PYZus{}citbi}\PY{p}{,} \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.4}\PY{p}{,} 
+                 \PY{n}{label}\PY{o}{=}\PY{n}{labels}\PY{p}{[}\PY{n}{gender}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{n}{color}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Age in Years}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{bins\PYZus{}citbi}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of Age by Gender (Only ciTBI)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{max\PYZus{}y\PYZus{}df} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{histogram}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{n}{gender}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{bins}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{gender} \PY{o+ow}{in} \PY{n}{colors}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{max\PYZus{}y\PYZus{}citbi} \PY{o}{=} \PY{n+nb}{max}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{histogram}\PY{p}{(}\PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{n}{df\PYZus{}citbi}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{n}{gender}\PY{p}{]}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{bins}\PY{o}{=}\PY{n}{bins\PYZus{}citbi}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{gender} \PY{o+ow}{in} \PY{n}{colors}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{max\PYZus{}y\PYZus{}df} \PY{o}{*} \PY{l+m+mf}{1.1}\PY{p}{)}  
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{max\PYZus{}y\PYZus{}citbi} \PY{o}{*} \PY{l+m+mf}{1.1}\PY{p}{)}  
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab1_files/lab1_22_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The histograms reveal distinct age-related trends in TBI evaluation and
+diagnosis. In both the full dataset and ciTBI subset, younger children
+(ages 0-3) are more likely to be evaluated for TBI, but the number of
+cases gradually declines as age increases. This likely reflects the
+higher clinical caution exercised for young children, as they may have
+difficulty verbally expressing symptoms and are at greater risk for
+severe injury consequences. Interestingly, we observe a secondary peak
+at ages 16-17, suggesting that older adolescents experience a higher
+incidence of head trauma requiring evaluation. This could be attributed
+to increased participation in high-risk activities, such as contact
+sports, driving-related accidents, or riskier physical behaviors.
+
+When focusing specifically on ciTBI cases (right histogram), we see a
+notable gender difference. While female cases decline more steadily with
+age, male cases show a sharp increase in ciTBI diagnoses at ages 16-17.
+This aligns with existing research suggesting that older male
+adolescents are at greater risk for severe head trauma due to higher
+engagement in contact sports and risk-taking behaviors. Additionally, in
+the full dataset, males are more frequently tested for TBI, and in the
+ciTBI subset, the number of cases in older ages (16-17) is nearly twice
+as high for males compared to females. This suggests that males are not
+only more frequently evaluated for TBI but also more likely to be
+diagnosed with ciTBI in later years. Overall, this analysis highlights
+the importance of considering both age and gender when assessing TBI
+risk and diagnostic patterns.
+
+    \subsubsection{3.4 Reality Check}\label{reality-check}
+
+After extensive data cleaning, we verify whether our dataset aligns with
+real-world epidemiological trends. Our findings show that males,
+particularly in adolescence (16-17 years old), have higher ciTBI rates
+than females, which aligns with established research from the CDC, JAMA
+Pediatrics, and WHO. Studies confirm that males are at greater risk for
+TBIs due to higher participation in contact sports, increased
+risk-taking behavior, and anatomical differences. Additionally, the
+observed higher birth rate of male infants (105 males per 100 females)
+supports the slight male dominance in our dataset. However, we must
+consider the possibility of medical testing biases, where males may have
+been more frequently tested for TBI than females, potentially inflating
+their ciTBI representation. Further investigation is needed to determine
+whether gender-based differences in testing frequency impact the
+dataset's findings.
+
+    \subsubsection{3.5 Stability Check}\label{stability-check}
+
+In this section, we assess the impact of different data cleaning
+strategies on our findings. Initially, we handled missing values by
+imputing them with the mode (most frequent value) or assigning 92
+(``Inapplicable'') for variables with less than 8\% missingness.
+However, in this analysis, we take an alternative approach by removing
+all rows that contained any missing values in these columns. This allows
+us to evaluate whether excluding ambiguous data points leads to
+significant differences in our findings. After applying this stricter
+cleaning method, we observe that the ciTBI rate decreases from 1.75\% in
+the original dataset to 0.5\% in the cleaned dataset, meaning that a
+greater proportion of ciTBI cases were removed when we excluded missing
+data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{}Generate new dfcheck}
+\PY{n}{dfcheck} \PY{o}{=} \PY{n}{df\PYZus{}raw}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Dizzy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Ethnicity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)} \PY{c+c1}{\PYZsh{}too much NA values}
+    \PY{c+c1}{\PYZsh{}drop unnecessary columns}
+\PY{n}{dfcheck} \PY{o}{=} \PY{n}{dfcheck}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PatNum}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{EmplType}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Certification}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{InjuryMech}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Intubated}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Paralyzed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sedated}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSIExtremity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSICut}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSICspine}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSIFlank}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSIAbdomen}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSIPelvis}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSIOth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTForm1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndAge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndAmnesia}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndAMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndClinSFx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndHA}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndHema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndLOC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndMech}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndNeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndRqstMD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndRqstParent}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndRqstTrauma}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndSeiz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndVomit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndXraySFx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IndOth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTSed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTSedAgitate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTSedAge}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTSedRqst}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{CTSedOth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Observed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{EDDisposition}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{EDCT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HospHead}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosCT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{DeathTBI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HospHeadPosCT}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Intub24Head}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Neurosurgery}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Drugs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding3}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding4}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding5}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding6}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding7}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding8}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding9}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding10}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding11}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding12}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding13}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding14}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding20}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding21}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+       \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding22}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Finding23}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeInMonth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{}drop rows that have na values for the final column}
+\PY{n}{dfcheck} \PY{o}{=} \PY{n}{dfcheck}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}drop all rows that has at least one NA vlues}
+\PY{n}{dfcheck} \PY{o}{=} \PY{n}{dfcheck}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{p}{)}
+\PY{k}{if} \PY{n}{dfcheck}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{any}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{any}\PY{p}{(}\PY{p}{)}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{new df for check has no NaN values for all columns.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{new df for stability check has dimension of }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dfcheck}\PY{o}{.}\PY{n}{shape}\PY{p}{)}
+
+\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{92}\PY{p}{)} \PY{c+c1}{\PYZsh{}SFxpalp 2(Unclear) is changed to 92(unapplicable)}
+\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{)} \PY{c+c1}{\PYZsh{}mild impact is 0}
+\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{}moderate, high is 1}
+\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{}Headache severity: severe to 1, and mild, moderate to 0. }
+\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HASeverity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{HASeverity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+new df for check has no NaN values for all columns.
+new df for stability check has dimension of  (27745, 58)
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}frame}\PY{p}{(}\PY{n}{name}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{assign}\PY{p}{(}\PY{n}{Percentage}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{p}{(}\PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{/} \PY{n}{x}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Count}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+             Count  Percentage
+PosIntFinal
+0.0          27595   99.459362
+1.0            150    0.540638
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dfcheck\PYZus{}citbi} \PY{o}{=} \PY{n}{dfcheck}\PY{p}{[}\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{dfcheck\PYZus{}nocitbi} \PY{o}{=} \PY{n}{dfcheck}\PY{p}{[}\PY{n}{dfcheck}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{]}
+\PY{n}{yes\PYZus{}percent\PYZus{}citbic} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{col}\PY{p}{:} \PY{p}{(}\PY{n}{dfcheck\PYZus{}citbi}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{selected\PYZus{}columns}\PY{p}{\PYZcb{}}
+\PY{n}{yes\PYZus{}percent\PYZus{}nocitbic} \PY{o}{=} \PY{p}{\PYZob{}}\PY{n}{col}\PY{p}{:} \PY{p}{(}\PY{n}{dfcheck\PYZus{}nocitbi}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{n}{normalize}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100}\PY{p}{)} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{selected\PYZus{}columns}\PY{p}{\PYZcb{}}
+
+\PY{n}{labelsc} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}citbic}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{values\PYZus{}citbic} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}citbic}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{values\PYZus{}nocitbic} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}nocitbic}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{labels} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}citbi}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{values\PYZus{}citbi} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}citbi}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{values\PYZus{}nocitbi} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n}{yes\PYZus{}percent\PYZus{}nocitbi}\PY{o}{.}\PY{n}{values}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{,} \PY{n}{sharey}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Two subplots side by side}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{labelsc}\PY{p}{)}\PY{p}{)}
+\PY{n}{width} \PY{o}{=} \PY{l+m+mf}{0.35}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{width}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{values\PYZus{}nocitbic}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No ciTBI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x} \PY{o}{+} \PY{n}{width}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{values\PYZus{}citbic}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ciTBI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Comparison of Yes Responses (Cleaned Data)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Variables}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Percentage of Yes Responses}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{labelsc}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{x} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{labels}\PY{p}{)}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x} \PY{o}{\PYZhy{}} \PY{n}{width}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{values\PYZus{}nocitbi}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{No ciTBI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gold}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n}{x} \PY{o}{+} \PY{n}{width}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{values\PYZus{}citbi}\PY{p}{,} \PY{n}{width}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ciTBI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Comparison of Yes Responses (Original Data)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Variables}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Percentage of Yes Responses}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xticks}\PY{p}{(}\PY{n}{x}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{set\PYZus{}xticklabels}\PY{p}{(}\PY{n}{labels}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{axes}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab1_files/lab1_28_0.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    The graphs above compare the Yes response percentages for key variables
+in children with and without ciTBI before and after the new cleaning
+method. Despite minor fluctuations in the bar heights, a consistent
+trend is maintained across both datasets: All columns except HA\_verb
+(headache presence) show higher Yes percentages in ciTBI children
+compared to non-ciTBI children. Key indicators from the PECARN
+study---such as High-Impact Injury, Acting Normal, and Altered Mental
+Status (AMS)---exhibit an even stronger contrast between ciTBI and
+non-ciTBI children after stricter data cleaning. This finding is
+particularly interesting, as it suggests that HA\_verb (whether a child
+reported a headache) is not a reliable predictor of ciTBI, aligning with
+the conclusions from the PECARN study. Additionally, the increased
+separation between ciTBI and non-ciTBI groups in critical predictor
+variables may indicate that rather than imputing missing values, a more
+accurate approach to refining a clinical prediction rule might be to
+eliminate ambiguous data points altogether. This stricter method of
+handling missing data could enhance the model's ability to differentiate
+between ciTBI and non-ciTBI cases.
+
+    \subsection{4 Modeling}\label{modeling}
+
+\subsubsection{4.1 Implementation}\label{implementation}
+
+\paragraph{Logistic Regression Model}\label{logistic-regression-model}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Drop columns if more than 40\PYZpc{} of values are 92}
+\PY{n}{threshold} \PY{o}{=} \PY{l+m+mf}{0.4}  
+\PY{n}{cols\PYZus{}to\PYZus{}drop} \PY{o}{=} \PY{p}{[}\PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns} \PY{k}{if} \PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{92}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{n}{threshold}\PY{p}{]}
+\PY{n}{df1} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{cols\PYZus{}to\PYZus{}drop}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    To build our logistic regression model, we first refine the dataset by
+addressing missing and inapplicable values. We drop columns where more
+than 40\% of values are 92, as these variables provide limited
+predictive value. For the remaining columns, we manually select features
+based on Findings 1, 2, and 3, ensuring we retain variables that showed
+a strong association with ciTBI. The selected features include key
+clinical and mechanism-based predictors (HighImpactInj, LOCSeparate,
+Seiz, ActNorm, Vomit, GCSGroup, AMS), physical examination findings
+(SFxPalp, FontBulg, SFxBas, Hema, Clav, NeuroD, OSI), and demographic
+variables (AgeInYrs, Gender). We exclude features such as Amnesia and
+HA\_verb due to their inconsistent predictive value in previous
+findings, as well as specific clavicle fracture details and race.
+Additionally, for variables LOCSeparate, ActNorm, and SFxPalp, where the
+proportion of 92 values is less than 0.1\%, we replace these values with
+the mode, which is 0.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{df1}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{92}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{df1} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOCSeparate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seiz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ActNorm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Vomit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSTotal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FontBulg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxBas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Clav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+m+mf}{1.0}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{2.0}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+m+mf}{1.0}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{2.0}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import}\PY{+w}{ }\PY{n+nn}{statsmodels}\PY{n+nn}{.}\PY{n+nn}{api}\PY{+w}{ }\PY{k}{as}\PY{+w}{ }\PY{n+nn}{sm}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{linear\PYZus{}model}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{LogisticRegression}
+\PY{k+kn}{from}\PY{+w}{ }\PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics}\PY{+w}{ }\PY{k+kn}{import} \PY{n}{confusion\PYZus{}matrix}
+
+\PY{n}{all\PYZus{}features} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOCSeparate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seiz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ActNorm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Vomit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FontBulg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxBas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Clav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{X} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{n}{all\PYZus{}features}\PY{p}{]}
+\PY{n}{y} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{stratify}\PY{o}{=}\PY{n}{y}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Function to fit logistic regression and calculate performance metrics}
+\PY{k}{def}\PY{+w}{ }\PY{n+nf}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{features}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} Subset the features}
+    \PY{n}{X\PYZus{}train\PYZus{}subset} \PY{o}{=} \PY{n}{X\PYZus{}train}\PY{p}{[}\PY{n}{features}\PY{p}{]}
+    \PY{n}{X\PYZus{}test\PYZus{}subset} \PY{o}{=} \PY{n}{X\PYZus{}test}\PY{p}{[}\PY{n}{features}\PY{p}{]}
+    
+    \PY{c+c1}{\PYZsh{} Add constant for statsmodels (intercept)}
+    \PY{n}{X\PYZus{}train\PYZus{}sm} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}subset}\PY{p}{)}
+    \PY{n}{X\PYZus{}test\PYZus{}sm} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{add\PYZus{}constant}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}subset}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Fit logistic regression with statsmodels for p\PYZhy{}values}
+    \PY{n}{logit\PYZus{}model} \PY{o}{=} \PY{n}{sm}\PY{o}{.}\PY{n}{Logit}\PY{p}{(}\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}train\PYZus{}sm}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{disp}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Fit sklearn model for predictions (with class weight for imbalance)}
+    \PY{n}{model} \PY{o}{=} \PY{n}{LogisticRegression}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{class\PYZus{}weight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{balanced}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}subset}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Predict on test set}
+    \PY{n}{y\PYZus{}pred} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}subset}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Calculate confusion matrix}
+    \PY{n}{conf\PYZus{}matrix} \PY{o}{=} \PY{n}{confusion\PYZus{}matrix}\PY{p}{(}\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}pred}\PY{p}{)}
+    \PY{n}{TN}\PY{p}{,} \PY{n}{FP}\PY{p}{,} \PY{n}{FN}\PY{p}{,} \PY{n}{TP} \PY{o}{=} \PY{n}{conf\PYZus{}matrix}\PY{o}{.}\PY{n}{ravel}\PY{p}{(}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Calculate performance metrics}
+    \PY{n}{total} \PY{o}{=} \PY{n}{TN} \PY{o}{+} \PY{n}{FP} \PY{o}{+} \PY{n}{FN} \PY{o}{+} \PY{n}{TP}
+    \PY{n}{sensitivity} \PY{o}{=} \PY{n}{TP} \PY{o}{/} \PY{p}{(}\PY{n}{TP} \PY{o}{+} \PY{n}{FN}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{if} \PY{p}{(}\PY{n}{TP} \PY{o}{+} \PY{n}{FN}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}  \PY{c+c1}{\PYZsh{} Sensitivity in percentage}
+    \PY{n}{specificity} \PY{o}{=} \PY{n}{TN} \PY{o}{/} \PY{p}{(}\PY{n}{TN} \PY{o}{+} \PY{n}{FP}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{if} \PY{p}{(}\PY{n}{TN} \PY{o}{+} \PY{n}{FP}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}  \PY{c+c1}{\PYZsh{} Specificity in percentage}
+    \PY{n}{ppv} \PY{o}{=} \PY{n}{TP} \PY{o}{/} \PY{p}{(}\PY{n}{TP} \PY{o}{+} \PY{n}{FP}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{if} \PY{p}{(}\PY{n}{TP} \PY{o}{+} \PY{n}{FP}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}  \PY{c+c1}{\PYZsh{} PPV in percentage}
+    \PY{n}{npv} \PY{o}{=} \PY{n}{TN} \PY{o}{/} \PY{p}{(}\PY{n}{TN} \PY{o}{+} \PY{n}{FN}\PY{p}{)} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{if} \PY{p}{(}\PY{n}{TN} \PY{o}{+} \PY{n}{FN}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}  \PY{c+c1}{\PYZsh{} NPV in percentage}
+    \PY{n}{accuracy} \PY{o}{=} \PY{p}{(}\PY{n}{TP} \PY{o}{+} \PY{n}{TN}\PY{p}{)} \PY{o}{/} \PY{n}{total} \PY{o}{*} \PY{l+m+mi}{100} \PY{k}{if} \PY{n}{total} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0} \PY{k}{else} \PY{l+m+mi}{0}
+    
+    \PY{k}{return} \PY{n}{sensitivity}\PY{p}{,} \PY{n}{specificity}\PY{p}{,} \PY{n}{ppv}\PY{p}{,} \PY{n}{npv}\PY{p}{,} \PY{n}{accuracy}\PY{p}{,} \PY{n}{logit\PYZus{}model}\PY{o}{.}\PY{n}{pvalues}
+
+\PY{n}{sensitivities} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{specificities} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{num\PYZus{}variables} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Initial evaluation with all variables}
+\PY{n}{initial\PYZus{}sensitivity}\PY{p}{,} \PY{n}{initial\PYZus{}specificity}\PY{p}{,} \PY{n}{initial\PYZus{}ppv}\PY{p}{,} \PY{n}{initial\PYZus{}npv}\PY{p}{,} \PY{n}{initial\PYZus{}accuracy}\PY{p}{,} \PY{n}{pvalues} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{all\PYZus{}features}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n}{sensitivities}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{initial\PYZus{}sensitivity}\PY{p}{)}
+\PY{n}{specificities}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{initial\PYZus{}specificity}\PY{p}{)}
+\PY{n}{num\PYZus{}variables}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{all\PYZus{}features}\PY{p}{)}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Initial Model Performance (All Variables):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sensitivity (Recall): }\PY{l+s+si}{\PYZob{}}\PY{n}{initial\PYZus{}sensitivity}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Specificity: }\PY{l+s+si}{\PYZob{}}\PY{n}{initial\PYZus{}specificity}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Positive Predictive Value (PPV): }\PY{l+s+si}{\PYZob{}}\PY{n}{initial\PYZus{}ppv}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Negative Predictive Value (NPV): }\PY{l+s+si}{\PYZob{}}\PY{n}{initial\PYZus{}npv}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy: }\PY{l+s+si}{\PYZob{}}\PY{n}{initial\PYZus{}accuracy}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Backward elimination to improve sensitivity}
+\PY{n}{current\PYZus{}features} \PY{o}{=} \PY{n}{all\PYZus{}features}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{n}{best\PYZus{}sensitivity} \PY{o}{=} \PY{n}{initial\PYZus{}sensitivity}
+\PY{n}{best\PYZus{}features} \PY{o}{=} \PY{n}{current\PYZus{}features}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{while} \PY{n+nb}{len}\PY{p}{(}\PY{n}{current\PYZus{}features}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} Evaluate current model}
+    \PY{n}{sensitivity}\PY{p}{,} \PY{n}{specificity}\PY{p}{,} \PY{n}{ppv}\PY{p}{,} \PY{n}{npv}\PY{p}{,} \PY{n}{accuracy}\PY{p}{,} \PY{n}{pvalues} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{current\PYZus{}features}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+    \PY{n}{sensitivities}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{sensitivity}\PY{p}{)}
+    \PY{n}{specificities}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{specificity}\PY{p}{)}
+    \PY{n}{num\PYZus{}variables}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{current\PYZus{}features}\PY{p}{)}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} If sensitivity improves, update best model}
+    \PY{k}{if} \PY{n}{sensitivity} \PY{o}{\PYZgt{}} \PY{n}{best\PYZus{}sensitivity}\PY{p}{:}
+        \PY{n}{best\PYZus{}sensitivity} \PY{o}{=} \PY{n}{sensitivity}
+        \PY{n}{best\PYZus{}features} \PY{o}{=} \PY{n}{current\PYZus{}features}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Remove the feature with the highest p\PYZhy{}value (least significant)}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{pvalues}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{all}\PY{p}{(}\PY{p}{)}\PY{p}{:}  \PY{c+c1}{\PYZsh{} Check if there are any valid p\PYZhy{}values}
+        \PY{n}{max\PYZus{}pvalue\PYZus{}feature} \PY{o}{=} \PY{n}{pvalues}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{const}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{idxmax}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Ignore constant term}
+        \PY{k}{if} \PY{n}{max\PYZus{}pvalue\PYZus{}feature} \PY{o+ow}{in} \PY{n}{current\PYZus{}features}\PY{p}{:}
+            \PY{n}{current\PYZus{}features}\PY{o}{.}\PY{n}{remove}\PY{p}{(}\PY{n}{max\PYZus{}pvalue\PYZus{}feature}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{k}{break}  \PY{c+c1}{\PYZsh{} No more features to remove or all p\PYZhy{}values are NaN}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{break}  \PY{c+c1}{\PYZsh{} No valid p\PYZhy{}values to guide removal}
+
+
+\PY{c+c1}{\PYZsh{} Final results with best features}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Best Model Performance (After Backward Elimination):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{final\PYZus{}sensitivity}\PY{p}{,} \PY{n}{final\PYZus{}specificity}\PY{p}{,} \PY{n}{final\PYZus{}ppv}\PY{p}{,} \PY{n}{final\PYZus{}npv}\PY{p}{,} \PY{n}{final\PYZus{}accuracy}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{best\PYZus{}features}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Features: }\PY{l+s+si}{\PYZob{}}\PY{n}{best\PYZus{}features}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sensitivity (Recall): }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}sensitivity}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Specificity: }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}specificity}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Positive Predictive Value (PPV): }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}ppv}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Negative Predictive Value (NPV): }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}npv}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy: }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}accuracy}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{num\PYZus{}variables}\PY{p}{,} \PY{n}{sensitivities}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sensitivity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{num\PYZus{}variables}\PY{p}{,} \PY{n}{specificities}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Specificity}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Number of Variables}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Percentage (}\PY{l+s+s1}{\PYZpc{}}\PY{l+s+s1}{)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sensitivity and Specificity vs. Number of Variables}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{gca}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{invert\PYZus{}xaxis}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Invert x\PYZhy{}axis to show decreasing number of variables from left to right}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Initial Model Performance (All Variables):
+Sensitivity (Recall): 85.59\%
+Specificity: 88.51\%
+Positive Predictive Value (PPV): 11.77\%
+Negative Predictive Value (NPV): 99.71\%
+Accuracy: 88.46\%
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Best Model Performance (After Backward Elimination):
+Features: ['LOCSeparate', 'ActNorm', 'GCSGroup', 'AMS', 'SFxPalp', 'SFxBas',
+'Hema', 'NeuroD', 'OSI']
+Sensitivity (Recall): 86.46\%
+Specificity: 86.52\%
+Positive Predictive Value (PPV): 10.30\%
+Negative Predictive Value (NPV): 99.72\%
+Accuracy: 86.51\%
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{lab1_files/lab1_34_2.pdf}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    To identify the optimal set of variables for predicting ciTBI in
+children, I used a backward elimination approach in the logistic
+regression model, starting with all 16 predictor variables
+(High\_impact\_InjSev, LOCSeparate, Seiz, ActNorm, Vomit, GCSGroup, AMS,
+SFxPalp, FontBulg, SFxBas, Hema, Clav, NeuroD, OSI, AgeTwoPlus, Gender).
+The process involved fitting an initial model with
+class\_weight=`balanced' to address the dataset's class imbalance
+(98.24\% no ciTBI vs.~1.76\% ciTBI), then iteratively removing the least
+significant variable based on p-values from statsmodels logistic
+regression. I evaluated each model on the test set, and continued until
+only one variable remained or no significant variables could be removed.
+The ``best model'' was selected by maximizing sensitivity, minimizing
+false negatives critical in this clinical context.
+
+The graph illustrating sensitivity and specificity versus the number of
+variables in the logistic regression model for predicting ciTBI in
+children reveals a dynamic trade-off as variables are removed through
+backward elimination. Starting with all 16 variables, the initial model
+achieved a sensitivity of 85.59\% and specificity of 88.51\%, reflecting
+a balanced performance. As variables were iteratively excluded based on
+p-values, sensitivity fluctuated, peaking at 86.46\% with a reduced set
+of 9 variables (LOCSeparate, ActNorm, GCSGroup, AMS, SFxPalp, SFxBas,
+Hema, NeuroD, OSI), while specificity slightly decreased to 86.52\%.
+This indicates that removing less significant variables improved
+sensitivity marginally but maintained a reasonable specificity,
+optimizing ciTBI detection while managing false positives, though PPV
+remained low (10.30\%) due to the rarity of ciTBI, and NPV stayed high
+(99.72\%) for ruling out ciTBI.
+
+    \subsubsection{4.2 Interpretability}\label{interpretability}
+
+The logistic regression model predicts ciTBI in children, with its best
+feature set of 9 variables. Below is a graph that summarizes what the
+coefficients mean in terms of log odds. As we can see, palpable skull
+fracture (SFxPalp) and basilar skull fracture (SFxBas) are the strongest
+predictors, while acting normally significantly reduces risk. Since
+logistic regression provides probability estimates for ciTBI
+(i.e.~P(Y=1\textbar X) = 1/(e\^{}-betaX)), for real-world use, a
+probability threshold or a clinical risk score can make the model
+actionable. For instance, a clinician could set a probability threshold
+(e.g., 10\% probability → recommend a CT scan). This allows a risk-based
+approach instead of binary ``Yes/No'' predictions.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{best\PYZus{}features} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOCSeparate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ActNorm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxBas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{X} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{n}{best\PYZus{}features}\PY{p}{]}
+\PY{n}{y} \PY{o}{=} \PY{n}{df1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{stratify}\PY{o}{=}\PY{n}{y}\PY{p}{)}
+\PY{n}{model} \PY{o}{=} \PY{n}{LogisticRegression}\PY{p}{(}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{max\PYZus{}iter}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{,} \PY{n}{class\PYZus{}weight}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{balanced}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsubsection{Converted Odds Ratios for Clinical
+Interpretation}\label{converted-odds-ratios-for-clinical-interpretation}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2241}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2241}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2759}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2759}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Log-Odds (β)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Odds Ratio (e\^{}β)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Interpretation
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{LOCSeparate} & 0.9087 & 2.48 & LOC increases ciTBI likelihood
+\textbf{2.48×} \\
+\textbf{ActNorm} & -1.0951 & 0.33 & Acting normal \textbf{reduces ciTBI
+risk by 67\%} \\
+\textbf{GCSGroup} & -2.0216 & 0.13 & Higher GCS score \textbf{reduces
+ciTBI risk by 87\%} \\
+\textbf{AMS} & 1.6208 & 5.06 & AMS increases ciTBI likelihood
+\textbf{5.06×} \\
+\textbf{SFxPalp} & 3.1911 & 24.30 & Palpable skull fracture increases
+risk \textbf{24×} \\
+\textbf{SFxBas} & 2.9986 & 20.07 & Basilar skull fracture increases risk
+\textbf{20×} \\
+\textbf{Hema} & 0.8941 & 2.44 & Scalp hematoma increases risk
+\textbf{2.44×} \\
+\textbf{NeuroD} & 0.9360 & 2.55 & Neurological deficit increases risk
+\textbf{2.55×} \\
+\textbf{OSI} & 0.9522 & 2.59 & Other significant injury increases risk
+\textbf{2.59×} \\
+\end{longtable}
+
+    \subsubsection{4.3 Stability Check}\label{stability-check}
+
+Similary with 3.5, we use cleaned dataframe which was made removing all
+rows that contained any missing values in the columns during the initial
+data cleaning process. Now, we will compare which variables are selected
+as the best model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Drop columns if more than 40\PYZpc{} of values are 92}
+\PY{n}{threshold} \PY{o}{=} \PY{l+m+mf}{0.4}  
+\PY{n}{cols\PYZus{}to\PYZus{}drop} \PY{o}{=} \PY{p}{[}\PY{n}{col} \PY{k}{for} \PY{n}{col} \PY{o+ow}{in} \PY{n}{dfcheck}\PY{o}{.}\PY{n}{columns} \PY{k}{if} \PY{p}{(}\PY{n}{dfcheck}\PY{p}{[}\PY{n}{col}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{92}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{dfcheck}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{n}{threshold}\PY{p}{]}
+\PY{n}{df1c} \PY{o}{=} \PY{n}{dfcheck}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{n}{cols\PYZus{}to\PYZus{}drop}\PY{p}{)}
+\PY{n}{df1c}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+m+mi}{92}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{inplace}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{df1c} \PY{o}{=} \PY{n}{df1c}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOCSeparate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seiz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ActNorm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Vomit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSTotal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FontBulg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxBas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Clav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeinYears}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{df1c}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df1c}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+m+mi}{1}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{df1c}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df1c}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+m+mf}{1.0}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{2.0}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{df1c}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df1c}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+m+mf}{1.0}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{2.0}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{\PYZcb{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{all\PYZus{}features} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{High\PYZus{}impact\PYZus{}InjSev}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LOCSeparate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seiz}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ActNorm}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Vomit}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{GCSGroup}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AMS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxPalp}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{FontBulg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SFxBas}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Hema}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Clav}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{NeuroD}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{OSI}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{AgeTwoPlus}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gender}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{X} \PY{o}{=} \PY{n}{df1c}\PY{p}{[}\PY{n}{all\PYZus{}features}\PY{p}{]}
+\PY{n}{y} \PY{o}{=} \PY{n}{df1c}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PosIntFinal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test} \PY{o}{=} \PY{n}{train\PYZus{}test\PYZus{}split}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{y}\PY{p}{,} \PY{n}{test\PYZus{}size}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{,} \PY{n}{stratify}\PY{o}{=}\PY{n}{y}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Initial evaluation with all variables}
+\PY{n}{initial\PYZus{}sensitivity}\PY{p}{,} \PY{n}{initial\PYZus{}specificity}\PY{p}{,} \PY{n}{initial\PYZus{}ppv}\PY{p}{,} \PY{n}{initial\PYZus{}npv}\PY{p}{,} \PY{n}{initial\PYZus{}accuracy}\PY{p}{,} \PY{n}{pvalues} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{all\PYZus{}features}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Backward elimination to improve sensitivity}
+\PY{n}{current\PYZus{}features} \PY{o}{=} \PY{n}{all\PYZus{}features}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{n}{best\PYZus{}sensitivity} \PY{o}{=} \PY{n}{initial\PYZus{}sensitivity}
+\PY{n}{best\PYZus{}features} \PY{o}{=} \PY{n}{current\PYZus{}features}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{while} \PY{n+nb}{len}\PY{p}{(}\PY{n}{current\PYZus{}features}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{1}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} Evaluate current model}
+    \PY{n}{sensitivity}\PY{p}{,} \PY{n}{specificity}\PY{p}{,} \PY{n}{ppv}\PY{p}{,} \PY{n}{npv}\PY{p}{,} \PY{n}{accuracy}\PY{p}{,} \PY{n}{pvalues} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{current\PYZus{}features}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} If sensitivity improves, update best model}
+    \PY{k}{if} \PY{n}{sensitivity} \PY{o}{\PYZgt{}} \PY{n}{best\PYZus{}sensitivity}\PY{p}{:}
+        \PY{n}{best\PYZus{}sensitivity} \PY{o}{=} \PY{n}{sensitivity}
+        \PY{n}{best\PYZus{}features} \PY{o}{=} \PY{n}{current\PYZus{}features}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} Remove the feature with the highest p\PYZhy{}value (least significant)}
+    \PY{k}{if} \PY{o+ow}{not} \PY{n}{pvalues}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{all}\PY{p}{(}\PY{p}{)}\PY{p}{:}  \PY{c+c1}{\PYZsh{} Check if there are any valid p\PYZhy{}values}
+        \PY{n}{max\PYZus{}pvalue\PYZus{}feature} \PY{o}{=} \PY{n}{pvalues}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{const}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ignore}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{idxmax}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Ignore constant term}
+        \PY{k}{if} \PY{n}{max\PYZus{}pvalue\PYZus{}feature} \PY{o+ow}{in} \PY{n}{current\PYZus{}features}\PY{p}{:}
+            \PY{n}{current\PYZus{}features}\PY{o}{.}\PY{n}{remove}\PY{p}{(}\PY{n}{max\PYZus{}pvalue\PYZus{}feature}\PY{p}{)}
+        \PY{k}{else}\PY{p}{:}
+            \PY{k}{break}  \PY{c+c1}{\PYZsh{} No more features to remove or all p\PYZhy{}values are NaN}
+    \PY{k}{else}\PY{p}{:}
+        \PY{k}{break}  \PY{c+c1}{\PYZsh{} No valid p\PYZhy{}values to guide removal}
+
+
+\PY{c+c1}{\PYZsh{} Final results with best features}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Best Model Performance (After Backward Elimination) for cleaned data:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{final\PYZus{}sensitivity}\PY{p}{,} \PY{n}{final\PYZus{}specificity}\PY{p}{,} \PY{n}{final\PYZus{}ppv}\PY{p}{,} \PY{n}{final\PYZus{}npv}\PY{p}{,} \PY{n}{final\PYZus{}accuracy}\PY{p}{,} \PY{n}{\PYZus{}} \PY{o}{=} \PY{n}{evaluate\PYZus{}model}\PY{p}{(}\PY{n}{best\PYZus{}features}\PY{p}{,} \PY{n}{X\PYZus{}train}\PY{p}{,} \PY{n}{X\PYZus{}test}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}test}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{number of Features: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{best\PYZus{}features}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sensitivity: }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}sensitivity}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Specificity: }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}specificity}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Positive Predictive Value (PPV): }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}ppv}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Negative Predictive Value (NPV): }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}npv}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Accuracy: }\PY{l+s+si}{\PYZob{}}\PY{n}{final\PYZus{}accuracy}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZpc{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Best Model Performance (After Backward Elimination) for cleaned data:
+number of Features:  16
+Sensitivity: 73.33\%
+Specificity: 89.02\%
+Positive Predictive Value (PPV): 3.50\%
+Negative Predictive Value (NPV): 99.84\%
+Accuracy: 88.94\%
+    \end{Verbatim}
+
+    We can see that using the clean data, the best model chosen with the
+same algorithm contains even more variables than with imputed data, with
+sensitivity and PPV much lower. This indicates that the cleaning process
+of eliminating all rows with missing values might not be the best
+option.
+
+    \subsection{5 Discussion}\label{discussion}
+
+The dataset was significantly larger than expected. While the sample
+size (number of patients) was reasonable given the extensive nature of
+this research---considering that ciTBI is a leading cause of death in
+children---the number of columns (125 variables) was unexpectedly high.
+One might assume that medical experts would have pre-selected the most
+relevant variables for predicting ciTBI, rather than including such a
+wide range of features. Additionally, more than 30\% of patients had at
+least one missing (NaN) or inapplicable (92) value, making it
+challenging for non-experts to determine whether to impute or remove
+data based on limited judgment. This increased the complexity of data
+cleaning and decision-making, as different imputation strategies could
+lead to slightly different results. Regarding the three realms
+(data/reality, algorithms/models, and future data/reality), this lab
+primarily fit into data/reality and algorithms/models. The dataset
+represents real-world clinical data, but preprocessing decisions---such
+as imputing or removing missing values---introduce uncertainties and
+assumptions that may slightly distort its direct connection to reality.
+Because some variables were removed or modified, there is not a perfect
+one-to-one correspondence between the dataset and reality. However,
+given that Findings 1, 2, and 3 closely aligned with the prediction rule
+proposed in the original research paper, the data still captured
+meaningful patterns that reflect real-world clinical decision-making.
+
+    \subsection{6 Conclusion}\label{conclusion}
+
+The PECARN prediction rule outlined in the original paper closely
+aligned with our findings, despite the challenges faced during the data
+cleaning process. While our preprocessing methods were not perfect, the
+fact that key variables---such as Altered Mental Status (AMS), Acting
+Normal, Vomiting, and Palpable Skull Fracture (SFxPalp)---emerged as
+strong predictors reinforces the reliability of the clinical rule.
+However, data cleaning and model selection are best handled by experts
+or engineers who work closely with medical professionals, rather than
+statistics students unfamiliar with the domain. Additionally, while our
+logistic regression model identified relevant predictors, further
+research and more rigorous data preprocessing are necessary. The
+sensitivity and specificity of our model were lower than those reported
+in the paper, highlighting the need for more refined feature selection,
+better handling of missing values, and potentially alternative modeling
+approaches to improve prediction accuracy.
+
+    \subsection{7 Academic Honesty}\label{academic-honesty}
+
+I affirm that this work is my own and adheres to the academic integrity
+policies of this course. Any external sources, discussions, or
+collaborations have been properly cited. I have not engaged in
+unauthorized assistance or plagiarism in completing this assignment.
+
+    \subsection{8 Collaborators}\label{collaborators}
+
+I used large language models (LLMs) to refine code for data
+visualization and improve the clarity of summaries. All analytical work,
+interpretations, and conclusions were my own. The LLM assistance was
+limited to debugging, code optimization, and enhancing readability.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}

@@ -1,0 +1,20 @@
+Soohyun Kim:
+For Part 1, I worked with Tianrui on EDA, created supporting functions, and conducted PCA. 
+In Part 2, I implemented the autoencoder pipeline, helped teammates set up SSH access, and modified functions to align with our data structure. 
+For Part 3, I trained the LightGBM model, set up data cleaning and cross-validation structures, created plots, which were used by others. 
+I proofread documents and organized team meetings.
+
+Tianrui Yang:
+In Part 1 I plotted expert labels, did exploratory analysis of the data, and was responsible for segmentation and cross-validation of the training and test sets, and worked with Shana on the data preprocessing function. 
+In Part 3 I trained the KNN model, calculated metrics, tuned parameters, and performed cross-validation. 
+In addition, I wrote the introduction, appendices, theoretical arguments for the model evaluation and selection sections, and collaborated with others in formatting and refining the report.
+
+
+Haavard Fossdal:
+In Part 2, I trained XGBoost and Random Forest models to identify feature importance and examined the correlation matrix. Using these, I argued for the top three features and created new ones. 
+In Part 3, I trained the XGBoost model on our expanded dataset as a potential classifier. Together with my group, we selected the best model. 
+I also conducted post-hoc EDA to analyze how features related to misclassifications.
+
+Yujian Zhou:
+For part2, I implemented transfer learning, tested and found out the best neural network and parameter. 
+For part 3, I conducted stability and sanity check. I also wrote the corresponding part in the report and helped teammates finish part3.

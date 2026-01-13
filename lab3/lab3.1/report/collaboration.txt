@@ -1,0 +1,19 @@
+Soohyun Kim
+Completed Part 1, including EDA, generating embeddings for the three models.
+In Part 2, created and successfully ran the modeling pipeline for W2V and GloVe, including 5-fold CV and test evaluation.
+Wrote Part 1(Intro, Data, Embeddings) and the Cross-Validation section of Part 2 in final report. 
+Organized Zoom meetings and set deadlines for tasks.
+
+Tianrui Yang
+Actively participated in the group discussion and tried to establish the data processing procedure and modeling for part 2. 
+Rewrote and successfully ran the modeling pipeline for BoW, including CV and test evaluation. 
+Started the skeleton of the report. Wrote the Academic honesty part. 
+Supplemented the Modeling and Cross-Validation Procedure part of BoW in the report. Helped refine the report.
+
+Yujian Zhou
+I collaborate with teammates to finish modeling part. 
+Revise the w2v and glv file, generate visualizations and conduct stability check. 
+I also write the modeling and evaluation part in our report(section 4.1-4.5).
+
+Haavard Fossdall
+I became very sick the last few days when I was supposed to do contribute for part 2 (meeting to discuss errors and figure out solution together with the others).
